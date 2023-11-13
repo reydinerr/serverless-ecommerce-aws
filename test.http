@@ -1,7 +1,7 @@
 
 @baseUrl = http://localhost:3000
 #@authToken = {{SESSION.response.body.$.token}}
-@id = fe0c9f0a-8cd2-4551-9966-cbd4f4983a55
+@id = 46b2bb60-a247-474d-bc31-0bfe8ba94808
 
 #PRODUCT
 
@@ -28,3 +28,37 @@ Content-Type: application/json
 {
     "quantity": 11
 }
+
+###
+# USER
+# @name CREATE
+POST {{baseUrl}}/user
+Content-Type: application/json
+
+{
+    "name": "User 2",
+    "email": "user2@mail.com",
+    "age": 20,
+    "cpf": "12345678902",
+    "password": "12345"
+} 
+###
+# @name LIST
+GET {{baseUrl}}/user
+###
+# @name GET
+GET {{baseUrl}}/user/{{id}}
+###
+# @name UPDATE
+PATCH {{baseUrl}}/user/{{id}}
+Content-Type: application/json
+
+{
+    "name": "User 2",
+    "email": "user2@mail.com",
+    "password": "12345",
+    "old_password": "12345"
+}
+###
+# @name DELETE
+DELETE {{baseUrl}}/user/{{id}}

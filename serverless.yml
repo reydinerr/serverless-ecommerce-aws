@@ -1,0 +1,39 @@
+org: reydiner
+service: ${self:package.name}
+
+plugins:
+  - serverless-plugin-optimize
+  - serverless-offline
+  - serverless-dynamodb-local
+  - serverless-webpack
+
+# custom:
+#   # Enable warmup on all functions (only for production and staging)
+#   warmup:
+#       - production
+#       - staging
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stackName: serverless-ecommerce
+
+package:
+  individually: true
+
+functions:
+  main:
+    handler: src/main.handler
+    events:
+      - http:
+          method: any
+          path: /{proxy+}
+# resources:
+#   Resources:
+#     productTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: products
+#         KeySchema:
+#           - AttributeName:
+#             KeyType:

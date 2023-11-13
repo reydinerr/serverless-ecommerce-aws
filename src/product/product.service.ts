@@ -21,7 +21,7 @@ export class ProductService {
     );
 
     if (productExists) {
-      throw new NotFoundException('Product with name already exists');
+      throw new HttpException('Product already exists', HttpStatus.CONFLICT);
     }
     const product = await this.productsRepository.create(createProductDto);
 

@@ -50,7 +50,7 @@ export class ProductsRepository {
   }
 
   async findByName(name: string) {
-    return this.prisma.product.findUnique({
+    return await this.prisma.product.findUnique({
       where: {
         name,
       },
@@ -58,7 +58,7 @@ export class ProductsRepository {
   }
 
   async create(data: CreateProductDto): Promise<Product> {
-    const product = this.prisma.product.create({
+    const product = await this.prisma.product.create({
       data,
     });
     return product;
