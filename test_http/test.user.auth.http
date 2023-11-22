@@ -1,35 +1,18 @@
 
 @baseUrl = http://localhost:3000
-#@authToken = {{SESSION.response.body.$.token}}
-@id = 46b2bb60-a247-474d-bc31-0bfe8ba94808
+@authToken = {{SESSION.response.body.$.token}}
+@id = 59714a34-29ff-4e83-8455-998404f63b4f
 
-#PRODUCT
-
-# @name CREATE
-POST {{baseUrl}}/product 
+# @name SESSION
+POST {{baseUrl}}/user/login
 Content-Type: application/json
 
 {
-    "name": "Product 3",
-    "price": 100,
-    "quantity": 10
+    "email": "user2@mail.com",
+    "password": "12345"
 }
 ###
-# @name LIST
-GET {{baseUrl}}/product
-###
-# @name GET
-GET {{baseUrl}}/product/{{id}}
-###
-# @name UPDATE
-PATCH  {{baseUrl}}/product/{{id}}
-Content-Type: application/json
 
-{
-    "quantity": 11
-}
-
-###
 # USER
 # @name CREATE
 POST {{baseUrl}}/user
@@ -62,3 +45,7 @@ Content-Type: application/json
 ###
 # @name DELETE
 DELETE {{baseUrl}}/user/{{id}}
+###
+# @name PROFILE
+GET {{baseUrl}}/user/profile
+Authorization: Bearer {{authToken}}

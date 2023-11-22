@@ -11,7 +11,8 @@ export class AuthService {
     private hashPassword: HashPassword,
     private jwtService: JwtService,
   ) {}
-  async signIn(email: string, password: string): Promise<TokenOutput> {
+
+  async signIn(email: string, pass: string): Promise<TokenOutput> {
     const user = await this.usersRepository.findByEmailWithPassword(email);
 
     if (!user) {
@@ -19,7 +20,7 @@ export class AuthService {
     }
 
     const confirmedPassword = await this.hashPassword.compareHash(
-      password,
+      pass,
       user.password,
     );
 

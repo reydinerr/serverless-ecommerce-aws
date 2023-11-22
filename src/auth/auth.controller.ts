@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
 import { SessionTokenDto } from './dto/sessionToken.dto';
 import { AuthGuard } from './auth.guard';
 
-@Controller('auth')
+@Controller('user/')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
