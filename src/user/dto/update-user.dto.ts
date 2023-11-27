@@ -11,6 +11,10 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsNotEmpty({ message: 'O email não pode estar vazio' })
   email: string;
 
+  @IsString()
+  @IsOptional()
+  avatar?: string;
+
   @IsString({ message: 'A senha deve ser uma string' })
   @IsNotEmpty({ message: 'A senha não pode estar vazia' })
   password: string;

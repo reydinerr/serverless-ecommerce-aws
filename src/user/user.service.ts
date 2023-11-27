@@ -10,12 +10,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './repositories/usersRepository';
 import { User } from './entities/user.entity';
 import { HashPassword } from './entities/hash/IHashPassword';
+import DiskStorageProvider from './entities/provider/diskStorageProvider';
 
 @Injectable()
 export class UserService {
   constructor(
     private usersRepository: UsersRepository,
     private hashProvider: HashPassword,
+    private diskStorageProvider: DiskStorageProvider,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -97,9 +99,37 @@ export class UserService {
 
     user.email = updateUserDto.email;
 
-    const { name, email, password } = updateUserDto;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { old_password, ...userUpdated } = updateUserDto;
 
-    const userUpdated = { name, email, password };
+    return await this.usersRepository.update(id, userUpdated);
+  }
+
+  async updateAvatar(id: string, file: string) {
+    const user = await this.usersRepository.findById(id);
+    console.log('🚀 ~ file: user.service.ts:110 ~ updateAvatar ~ user:', user);
+
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+
+    // if (uploadConfig.driver === 's3') {
+    //   const s3Provider = new S3StorageProvider();
+    //   if (user.avatar) {
+    //     await s3Provider.deleteFile(user.avatar);
+    //   }
+    //   const filename = await s3Provider.saveFile(updateAvatarDto.avatar);
+    //   user.avatar = filename;
+    // } else {
+    if (user.avatar) {
+      await this.diskStorageProvider.deleteFile(user.avatar);
+    }
+    const filename = await this.diskStorageProvider.saveFile(file);
+    user.avatar = filename;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { name, email, avatar, password } = user;
+    const userUpdated = { name, email, avatar, password };
 
     return await this.usersRepository.update(id, userUpdated);
   }
